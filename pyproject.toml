@@ -1,0 +1,17 @@
+[project]
+name = "adk-incident-responder"
+version = "0.1.0"
+description = "Multi-agent incident responder on Google ADK and Gemini: triage, diagnosis and human-approved remediation."
+requires-python = ">=3.10"
+dependencies = ["google-adk>=2.14,<3", "fastapi>=0.110", "uvicorn>=0.29"]
+
+[tool.setuptools]
+packages = ["incident_responder"]
+
+[tool.setuptools.package-data]
+incident_responder = ["data/*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+filterwarnings = ["ignore::DeprecationWarning", "ignore::UserWarning"]

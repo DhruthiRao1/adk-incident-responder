@@ -1,0 +1,18 @@
+{
+  "services": ["checkout-api", "search-api", "payments-worker"],
+  "metrics": {
+    "checkout-api": {"error_rate": 0.18, "p95_latency_ms": 2400, "cpu": 0.55, "baseline_error_rate": 0.01, "baseline_p95_latency_ms": 300},
+    "search-api": {"error_rate": 0.01, "p95_latency_ms": 180, "cpu": 0.93, "baseline_error_rate": 0.01, "baseline_p95_latency_ms": 170},
+    "payments-worker": {"error_rate": 0.0, "p95_latency_ms": 90, "cpu": 0.2, "baseline_error_rate": 0.0, "baseline_p95_latency_ms": 95}
+  },
+  "deploys": {
+    "checkout-api": [{"version": "v142", "minutes_ago": 12, "author": "ci-bot", "summary": "Switch connection pool library"}],
+    "search-api": [{"version": "v87", "minutes_ago": 4300, "author": "ci-bot", "summary": "Dependency bump"}],
+    "payments-worker": []
+  },
+  "runbooks": [
+    {"id": "RB-001", "title": "Elevated 5xx after a deploy", "body": "If error rate rises within 30 minutes of a deploy, roll back the deploy first, then investigate. Check connection pool exhaustion and downstream timeouts."},
+    {"id": "RB-002", "title": "High CPU saturation", "body": "If CPU is above 85 percent with normal error rate, scale up the service by one step and check for a traffic spike or a hot loop."},
+    {"id": "RB-003", "title": "Queue backlog on workers", "body": "If queue depth grows while error rate is flat, restart the worker service and check for stuck consumers."}
+  ]
+}
